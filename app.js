@@ -67,10 +67,11 @@ app.get('/dashboard', function (req, res) {
 // the api (note that typically you would likely organize things a little differently to this)
 app.use('/api', api);
 
+
 // create the server based on express
 var server = require('http').createServer(app);
 
 // start the server
-server.listen(5001, '127.0.0.1', function () {
-  console.log('The Next XYZ is looking good! Open http://localhost:%d to begin.', 5000);
+server.listen(1338, '127.0.0.1', function () {
+  console.log('The Next XYZ is looking good! Open http://localhost:%d to begin.', 1337);
 });
