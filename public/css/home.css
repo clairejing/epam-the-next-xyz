@@ -1,0 +1,7 @@
+.img{
+  padding-top: 0;
+}
+
+.col-md-4:hover{
+  background-color: lightgreen;
+}

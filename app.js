@@ -24,9 +24,15 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // setup our public directory (which will serve any file stored in the 'public' directory)
 app.use(express.static('public'));
 
+app.use(function (req, res, next) {
+  res.locals.scripts = [];
+  next();
+});
+
 // respond to the get request with the home page
 app.get('/', function (req, res) {
-    res.render('home');
+  res.locals.scripts.push('js/home.js');
+  res.render('home');
 });
 
 // respond to the get request with the about page
@@ -65,6 +71,6 @@ app.use('/api', api);
 var server = require('http').createServer(app);
 
 // start the server
-server.listen(5000, '127.0.0.1', function () {
+server.listen(5001, '127.0.0.1', function () {
   console.log('The Next XYZ is looking good! Open http://localhost:%d to begin.', 5000);
 });
