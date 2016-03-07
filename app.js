@@ -48,9 +48,43 @@ app.use(function (req, res, next) {
   next();
 });
 
-//express-users memory
-// app.use(require('express-users')({store: 'memory'}));
+//passport settings
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var flash = require('express-flash');
+var passport = require('passport');
 
+app.use(cookieParser());
+app.use(session({ secret: 'keyboard cat' , resave: false, saveUninitialized: false}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
+
+
+var LocalStrategy = require('passport-local').Strategy;
+passport.use(new LocalStrategy({
+    usernameField: 'name',
+    passwordField: 'password'
+  },
+  function(username, password, done) {
+  // findByUsername(username, function(err, user) {
+  //       if (err) { return done(err); }
+  //       if (!user) { return done(null, false); }
+  //       if (user.password != password) { return done(null, false); }
+  //       return done(null, user);
+  //   });
+  var user = {'name':username,'passport':password};
+  return done(null,user);
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+passport.deserializeUser(function(user, done) {
+    done(null, user);
+});
 
 // respond to the get request with the home page
 app.get('/', function (req, res) {
@@ -69,18 +103,21 @@ app.get('/register', function(req, res) {
 });
 
 // handle the posted registration data
-app.post('/register', function(req, res) {
-
+app.post('/register',  passport.authenticate('local'/*,
+    { successRedirect: '/dashboard',
+     failureRedirect: '/',
+     failureFlash: true }*/), function(req, res) {
+    // console.log(req.params.name);
   // get the data out of the request (req) object
   // store the user in memory here
-
 
   res.redirect('/dashboard');
 });
 
 // respond to the get request with dashboard page (and pass in some data into the template / note this will be rendered server-side)
 app.get('/dashboard', function (req, res) {
-    res.render('dashboard', {
+  console.log(req.user.name);
+    res.render('dashboard', { username:req.user.name,
     	stuff: [{
 		    greeting: "Hello",
 		    subject: "World!"
