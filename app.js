@@ -48,6 +48,10 @@ app.use(function (req, res, next) {
   next();
 });
 
+//express-users memory
+// app.use(require('express-users')({store: 'memory'}));
+
+
 // respond to the get request with the home page
 app.get('/', function (req, res) {
   res.locals.scripts.push('js/home.js');
@@ -82,6 +86,12 @@ app.get('/dashboard', function (req, res) {
 		    subject: "World!"
 		}]
     });
+});
+
+app.get('/articles/:id',function(req,res){
+   res.locals.scripts.push('/js/article.js');
+   console.log("getArticles"+req.params.id);
+   res.render('article',{"title":"test"});
 });
 
 // the api (note that typically you would likely organize things a little differently to this)

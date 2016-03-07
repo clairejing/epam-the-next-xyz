@@ -7,5 +7,6 @@ $(function() {
              var html = template(data[0]);
              $('.row').append(html).append(template(data[1])).append(template(data[2]));
         }
-    })
+    });
 });
+
