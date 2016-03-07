@@ -30,10 +30,14 @@ router.get('/articles', function(req, res, next) {
 });
 
 router.get('/articles/:id', function(req, res, next) {
-	debugger
 	console.log(req.params.id);
+	Article.findById(req.params.id, function(err, data){
+		if(!err){
+			res.render('article', data);
+		}
+	});
 	// res.send("Welcome id");
-	var fs = require('fs');
+/*	var fs = require('fs');
 	var obj;
 	fs.readFile('./data/articles.json', 'utf8', function (err, data) {
 		if (err) throw err;
@@ -43,7 +47,7 @@ router.get('/articles/:id', function(req, res, next) {
 		});
 
 		res.render('article',data[0]);
-	});
+	});*/
 });
 
 module.exports = router;
