@@ -11,6 +11,25 @@ var hbs = exphbs.create({defaultLayout: 'main'});
 // crethe the express app
 var app = express();
 
+
+//create mongoose
+var mongoose = require('mongoose');
+mongoose.connect('mongodb://localhost/thenextspot');
+var Schema = mongoose.Schema;
+
+//Create a Schema for articles
+var ArticlesSchema = new Schema({
+  title: String,
+  summary: String,
+  image: String,
+  author: String,
+  date: Date
+});
+mongoose.model('Article', ArticlesSchema);
+var Article = mongoose.model('Article');
+
+
+
 var api = require('./routes/api');
 
 // setup handlebars
@@ -73,6 +92,6 @@ app.use('/api', api);
 var server = require('http').createServer(app);
 
 // start the server
-server.listen(1338, '127.0.0.1', function () {
+server.listen(1337, '127.0.0.1', function () {
   console.log('The Next XYZ is looking good! Open http://localhost:%d to begin.', 1337);
 });
