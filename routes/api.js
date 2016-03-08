@@ -6,7 +6,9 @@ var _ = require('underscore');
 // note that typically data would NOT be loaded from the filesystem in this manner :)
 
 var mongoose = require('mongoose');
-var Article = mongoose.model('Article');
+// var Article = mongoose.model('Article');
+
+var Article = require('../models/ArticleSchema');
 
 router.get('/articles', function(req, res, next) {
 
@@ -26,5 +28,6 @@ router.get('/articles/:id', function(req, res, next) {
 		}
 	});
 });
+
 
 module.exports = router;

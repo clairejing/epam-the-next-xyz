@@ -1,3 +1,4 @@
+<link href="css/dashboard.css" rel="stylesheet">
 <h2>Dashboard</h2>
 <div id="stuff">
 	<h4>Welcome <em>{{username}}</em></h4>
@@ -8,10 +9,32 @@
 
 	<hr>
 
-	<button class="btn btn-inverse btn-lg">Add New Article</button>
+	<button id="addNewArticle" class="btn btn-inverse btn-lg">Add New Article</button>
+  <form id="newArticle" action="/articles" method="post">
+      <div class="row form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" name="title" id="title"></input>
+      </div>
+      <br>
+      <div class="row form-group">
+          <label for="date">Date</label>
+          <input class="form-control"type='date' name="date" id="date"></input>
+      </div>
+      <br>
+      <div class="row form-group">
+       <label for="image">Image</label>
+          <input class="form-control"type='url' name="image" id="image"></input>
+      </div>
+      <br>
+      <div class="row form-group">
+       <label for="summary">Summary</label>
+          <textarea class="form-control" name="summary" rows="10" cols="50" id="summary"></textarea>
+      </div>
+      <br>
+      <button type="submit" class="btn btn-inverse btn-lg">Submit</button>
+  </form>
 </div>
 
-<br>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Advanced TODO</h3>

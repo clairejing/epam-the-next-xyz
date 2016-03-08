@@ -15,10 +15,10 @@ var app = express();
 //create mongoose
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/thenextspot');
-var Schema = mongoose.Schema;
+// var Schema = mongoose.Schema;
 
 //Create a Schema for articles
-var ArticlesSchema = new Schema({
+/*var ArticlesSchema = new Schema({
   title: String,
   summary: String,
   image: String,
@@ -26,8 +26,10 @@ var ArticlesSchema = new Schema({
   date: Date
 });
 mongoose.model('Article', ArticlesSchema);
-var Article = mongoose.model('Article');
+var Article = mongoose.model('Article');*/
 
+var Article = require('./models/ArticleSchema');
+var User = require('./models/UserSchema');
 
 
 var api = require('./routes/api');
@@ -61,13 +63,13 @@ app.use(passport.session());
 app.use(flash());
 
 
-
 var LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy({
     usernameField: 'name',
     passwordField: 'password'
   },
   function(username, password, done) {
+    // User.findOne()
   // findByUsername(username, function(err, user) {
   //       if (err) { return done(err); }
   //       if (!user) { return done(null, false); }
@@ -116,7 +118,7 @@ app.post('/register',  passport.authenticate('local'/*,
 
 // respond to the get request with dashboard page (and pass in some data into the template / note this will be rendered server-side)
 app.get('/dashboard', function (req, res) {
-  console.log(req.user.name);
+    res.locals.scripts.push('/js/dashboard.js');
     res.render('dashboard', { username:req.user.name,
     	stuff: [{
 		    greeting: "Hello",
@@ -131,6 +133,13 @@ app.get('/articles/:id',function(req,res){
    res.render('article',{"title":"test"});
 });
 
+app.post('/articles',function(req,res){
+  var article = new Article(req.body);
+       article.save(function(err){
+         if(err) throw err;
+         else  res.redirect('/dashboard');
+     });
+});
 // the api (note that typically you would likely organize things a little differently to this)
 app.use('/api', api);
 
