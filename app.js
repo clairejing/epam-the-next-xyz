@@ -96,6 +96,7 @@ app.get('/', function (req, res) {
 
 // respond to the get request with the about page
 app.get('/about', function(req, res) {
+  res.locals.scripts.push('js/about.js');
   res.render('about');
 });
 
