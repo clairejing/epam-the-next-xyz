@@ -15,18 +15,7 @@ var app = express();
 //create mongoose
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/thenextspot');
-// var Schema = mongoose.Schema;
 
-//Create a Schema for articles
-/*var ArticlesSchema = new Schema({
-  title: String,
-  summary: String,
-  image: String,
-  author: String,
-  date: Date
-});
-mongoose.model('Article', ArticlesSchema);
-var Article = mongoose.model('Article');*/
 
 var Article = require('./models/ArticleSchema');
 var User = require('./models/UserSchema');
@@ -65,19 +54,19 @@ app.use(flash());
 
 var LocalStrategy = require('passport-local').Strategy;
 passport.use(new LocalStrategy({
-    usernameField: 'name',
+    usernameField: 'email',
     passwordField: 'password'
   },
   function(username, password, done) {
-    // User.findOne()
-  // findByUsername(username, function(err, user) {
-  //       if (err) { return done(err); }
-  //       if (!user) { return done(null, false); }
-  //       if (user.password != password) { return done(null, false); }
-  //       return done(null, user);
-  //   });
-  var user = {'name':username,'passport':password};
-  return done(null,user);
+    console.log("passport");
+    User.findOne({email:username}, function(err, user){
+      if (err) { return done(err); }
+      if(!user){return done(null, false)}
+      if(!user.validPassword(password)){
+        return done(null, false);
+      }
+      return done(null, user);
+    });
   }
 ));
 
@@ -106,14 +95,7 @@ app.get('/register', function(req, res) {
 });
 
 // handle the posted registration data
-app.post('/register',  passport.authenticate('local'/*,
-    { successRedirect: '/dashboard',
-     failureRedirect: '/',
-     failureFlash: true }*/), function(req, res) {
-    // console.log(req.params.name);
-  // get the data out of the request (req) object
-  // store the user in memory here
-
+app.post('/register',  passport.authenticate('local'), function(req, res) {
   res.redirect('/dashboard');
 });
 
@@ -126,6 +108,14 @@ app.get('/dashboard', function (req, res) {
 		    subject: "World!"
 		}]
     });
+});
+
+app.get('/login', function(req, res){
+  res.render('login');
+});
+
+app.post('/login', passport.authenticate('local'), function(req, res){
+  res.redirect('/dashboard');
 });
 
 app.get('/articles/:id',function(req,res){

@@ -24,5 +24,5 @@ UserSchema.method('validPassword',function(password,callback){
 
 });*/
 
-mongoose.model('User', UserSchema);
-var User = mongoose.model('User');
+var User = mongoose.model('User', UserSchema);
+module.exports = mongoose.model('User');
