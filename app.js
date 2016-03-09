@@ -1,6 +1,7 @@
 // include and setup express
 var express = require('express');
 var bodyParser = require('body-parser');
+var crypto = require('crypto');
 
 // include express handlebars (templating engine)
 var exphbs  = require('express-handlebars');
@@ -95,14 +96,23 @@ app.get('/register', function(req, res) {
 });
 
 // handle the posted registration data
-app.post('/register',  passport.authenticate('local'), function(req, res) {
-  res.redirect('/dashboard');
+app.post('/register', function(req, res, done) {
+  var user = new User(req.body);
+  user.save(function(err){
+         if(err) throw err;
+         else {
+          // var session = req.session;
+          req.session.user = user;
+          // done(null, user);
+          res.redirect('/dashboard');
+        };
+     });
 });
 
 // respond to the get request with dashboard page (and pass in some data into the template / note this will be rendered server-side)
 app.get('/dashboard', function (req, res) {
     res.locals.scripts.push('/js/dashboard.js');
-    res.render('dashboard', { username:req.user.name,
+    res.render('dashboard', { username:req.session.user.name,
     	stuff: [{
 		    greeting: "Hello",
 		    subject: "World!"
@@ -115,6 +125,7 @@ app.get('/login', function(req, res){
 });
 
 app.post('/login', passport.authenticate('local'), function(req, res){
+  req.session.user = req.user;
   res.redirect('/dashboard');
 });
 

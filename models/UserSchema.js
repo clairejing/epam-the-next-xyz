@@ -4,12 +4,17 @@ var Schema = mongoose.Schema;
 
 // //Create a Schema for articles
 var UserSchema = new Schema({
-  name: String,
+  name: {
+    type:String,
+    required:true,
+    unique: true},
   email: {
     type:String,
-    match:[],
-    required:true},
-  password: {type:String, required:true}
+    required:true,
+    unique: true},
+  password: {
+    type:String,
+    required:true}
 });
 
 UserSchema.method('validPassword',function(password,callback){
