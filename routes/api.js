@@ -24,7 +24,7 @@ router.get('/articles/:id', function(req, res, next) {
 });
 
 router.get('/categories', function(req, res, next){
-	Category.find({}, null, {sort:{date:-1}}, function(err, data){
+	Category.find({}, null, {sort:{date:1}}, function(err, data){
 		res.json(data);
 	});
 });
