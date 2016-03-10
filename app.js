@@ -72,10 +72,10 @@ passport.use(new LocalStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  done(null, user);
 });
 passport.deserializeUser(function(user, done) {
-    done(null, user.id);
+    done(null, user);
 });
 
 // respond to the get request with the home page
@@ -106,20 +106,23 @@ app.post('/register', function(req, res, done) {
          else {
           // req.session.user = user;
           // res.redirect('/dashboard');
-          console.log('user created');
           res.redirect('/login');
         };
      });
 });
 
-// respond to the get request with dashboard page (and pass in some data into the template / note this will be rendered server-side)
-app.get('/dashboard', function (req, res) {
+var isAuthenticated = function (req,res,next) {
+   if (req.isAuthenticated()) return next();
+   res.redirect('/login');
+}
+
+app.get('/dashboard',isAuthenticated, function (req, res) {
     res.locals.scripts.push('/js/dashboard.js');
     res.render('dashboard', { username:req.session.user.name,
-    	stuff: [{
-		    greeting: "Hello",
-		    subject: "World!"
-		}]
+      stuff: [{
+        greeting: "Hello",
+        subject: "World!"
+    }]
     });
 });
 
