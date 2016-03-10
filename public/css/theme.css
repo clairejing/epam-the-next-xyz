@@ -20,7 +20,7 @@ body {
 /* Navigation style */
 
 .navbar-inverse {
-	background-image: linear-gradient(to bottom, #D9260F 0, #B81208 100%);
+	background-image: linear-gradient(to bottom, #36D7B7 0, #36D7B7 100%);
 	border-color: #666666;
 }
 
@@ -48,4 +48,7 @@ body {
   width: 100%;
   height: 60px;
   margin-bottom: 30px;
+}
+.jumbotron{
+  background-color: #86E2D5;
 }

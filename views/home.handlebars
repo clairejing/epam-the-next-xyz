@@ -25,10 +25,11 @@
 <script id="hometemplate" type="text/x-handlebars-template">
   <div class="col-md-4">
     <p class="text-center img">
-      <a href="articles/\{{_id}}">
-        <img class="center-block img-responsive"src="\{{image}}">
-        <p>\{{title}}</p>
-        <p>\{{summary}}</p>
+      <a class= "link-container" href="articles/\{{_id}}">
+       <div class= "image-container" style="background-image: url(\{{image}})"></div>
+       {{!--  <img class="center-block img-responsive"src="\{{image}}"> --}}
+        <p class= "title-container">\{{title}}</p>
+        {{!-- <p>\{{summary}}</p> --}}
         <p>\{{author}}</p>
         <p>\{{date}}</p>
       </a>

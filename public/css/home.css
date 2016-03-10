@@ -4,5 +4,20 @@
 }
 
 .col-md-4:hover{
-  background-color: lightgreen;
+  background-color: rgba(46, 204, 113,0.5);
+}
+
+.image-container{
+   padding-top: 0;
+  width: 100%;
+  height: 200px;
+
+}
+.title-container{
+  font-size: 20px;
+  color: black;
+}
+.link-container{
+  width: 100%;
+  height: 200px;
 }

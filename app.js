@@ -72,10 +72,10 @@ passport.use(new LocalStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user);
+  done(null, user.id);
 });
 passport.deserializeUser(function(user, done) {
-    done(null, user);
+    done(null, user.id);
 });
 
 // respond to the get request with the home page
@@ -99,12 +99,15 @@ app.get('/register', function(req, res) {
 app.post('/register', function(req, res, done) {
   var user = new User(req.body);
   user.save(function(err){
-         if(err) throw err;
+         if(err){
+          console.log(err);
+          res.redirect('/register?status=fail');
+         }
          else {
-          // var session = req.session;
-          req.session.user = user;
-          // done(null, user);
-          res.redirect('/dashboard');
+          // req.session.user = user;
+          // res.redirect('/dashboard');
+          console.log('user created');
+          res.redirect('/login');
         };
      });
 });
